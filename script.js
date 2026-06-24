@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   searchBtn.addEventListener("click", getPokemon);
 
+  searchInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    getPokemon();
+  }
+});
+
   async function getPokemon() {
 
     const name = (searchInput.value || "").toLowerCase().trim();
