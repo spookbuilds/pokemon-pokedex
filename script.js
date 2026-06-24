@@ -1,53 +1,53 @@
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-const pokemonCard = document.getElementById("pokemonCard");
+document.addEventListener("DOMContentLoaded", () => {
 
-pokemonCard.innerHTML = "";
+  const searchInput = document.getElementById("searchInput");
+  const searchBtn = document.getElementById("searchBtn");
+  const pokemonCard = document.getElementById("pokemonCard");
 
-searchBtn.addEventListener("click", getPokemon);
+  searchBtn.addEventListener("click", getPokemon);
 
-async function getPokemon() {
+  async function getPokemon() {
 
-  const name = searchInput.value.toLowerCase();
+    const name = (searchInput.value || "").toLowerCase().trim();
 
-  if (!name) return;
+    if (!name) return;
 
-  pokemonCard.innerHTML = "<p>Loading Pokémon... ⏳</p>";
+    pokemonCard.innerHTML = "<p>Loading Pokémon... ⏳</p>";
 
-  try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-    const data = await response.json();
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+      const data = await response.json();
 
-    displayPokemon(data);
+      displayPokemon(data);
 
-  } catch (error) {
-    pokemonCard.innerHTML = "<p>Pokémon not found 😢</p>";
+    } catch (error) {
+      pokemonCard.innerHTML = "<p>Pokémon not found 😢</p>";
+    }
   }
-}
 
-function displayPokemon(data) {
+  function displayPokemon(data) {
 
-  const stats = data.stats;
+    const stats = data.stats;
 
-  pokemonCard.innerHTML = `
-    <h2>${data.name.toUpperCase()}</h2>
+    pokemonCard.innerHTML = `
+      <h2>${data.name.toUpperCase()}</h2>
+      <img src="${data.sprites.front_default}" />
+      <p>Type: ${data.types.map(t => t.type.name).join(", ")}</p>
 
-    <img src="${data.sprites.front_default}" />
+      <h3>Stats</h3>
 
-    <p>Type: ${data.types.map(t => t.type.name).join(", ")}</p>
+      <p>HP: ${stats[0].base_stat}</p>
+      <div class="bar"><div style="width:${stats[0].base_stat}%"></div></div>
 
-    <h3>Stats</h3>
+      <p>Attack: ${stats[1].base_stat}</p>
+      <div class="bar"><div style="width:${stats[1].base_stat}%"></div></div>
 
-    <p>HP: ${stats[0].base_stat}</p>
-    <div class="bar"><div style="width:${stats[0].base_stat}%"></div></div>
+      <p>Defense: ${stats[2].base_stat}</p>
+      <div class="bar"><div style="width:${stats[2].base_stat}%"></div></div>
 
-    <p>Attack: ${stats[1].base_stat}</p>
-    <div class="bar"><div style="width:${stats[1].base_stat}%"></div></div>
+      <p>Speed: ${stats[5].base_stat}</p>
+      <div class="bar"><div style="width:${stats[5].base_stat}%"></div></div>
+    `;
+  }
 
-    <p>Defense: ${stats[2].base_stat}</p>
-    <div class="bar"><div style="width:${stats[2].base_stat}%"></div></div>
-
-    <p>Speed: ${stats[5].base_stat}</p>
-    <div class="bar"><div style="width:${stats[5].base_stat}%"></div></div>
-  `;
-}
+});
