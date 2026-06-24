@@ -88,3 +88,18 @@ button:hover {
     transform: rotate(360deg);
   }
 }
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pokemon-card {
+  animation: popIn 0.3s ease-out;
+}
