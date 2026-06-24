@@ -1,3 +1,5 @@
+pokemonCard.innerHTML = "";
+
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const pokemonCard = document.getElementById("pokemonCard");
@@ -9,6 +11,8 @@ async function getPokemon() {
   const name = searchInput.value.toLowerCase();
 
   if (!name) return;
+
+  pokemonCard.innerHTML = "<p>Loading Pokémon... ⏳</p>";
 
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
@@ -23,11 +27,27 @@ async function getPokemon() {
 
 function displayPokemon(data) {
 
+  const stats = data.stats;
+
   pokemonCard.innerHTML = `
     <h2>${data.name.toUpperCase()}</h2>
+
     <img src="${data.sprites.front_default}" />
-    <p>Height: ${data.height}</p>
-    <p>Weight: ${data.weight}</p>
+
     <p>Type: ${data.types.map(t => t.type.name).join(", ")}</p>
+
+    <h3>Stats</h3>
+
+    <p>HP: ${stats[0].base_stat}</p>
+    <div class="bar"><div style="width:${stats[0].base_stat}%"></div></div>
+
+    <p>Attack: ${stats[1].base_stat}</p>
+    <div class="bar"><div style="width:${stats[1].base_stat}%"></div></div>
+
+    <p>Defense: ${stats[2].base_stat}</p>
+    <div class="bar"><div style="width:${stats[2].base_stat}%"></div></div>
+
+    <p>Speed: ${stats[5].base_stat}</p>
+    <div class="bar"><div style="width:${stats[5].base_stat}%"></div></div>
   `;
 }
