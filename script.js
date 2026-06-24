@@ -45,9 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const stats = data.stats;
 
     pokemonCard.innerHTML = `
+      <div class="pokemon-card"></div>
       <h2>${data.name.toUpperCase()}</h2>
       <img src="${data.sprites.front_default}" />
-      <p>Type: ${data.types.map(t => t.type.name).join(", ")}</p>
+     <div>
+  ${data.types.map(t => {
+    const color = getTypeColor(t.type.name);
+    return `<span style="background:${color}; padding:4px 8px; border-radius:6px; margin:2px;">
+      ${t.type.name}
+    </span>`;
+  }).join(" ")}
+</div>
 
       <h3>Stats</h3>
 
@@ -66,3 +74,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+function getTypeColor(type) {
+  const colors = {
+    fire: "#ff4d4d",
+    water: "#4da6ff",
+    grass: "#4caf50",
+    electric: "#ffd633",
+    psychic: "#ff66b3",
+    ice: "#66ffff",
+    dragon: "#7b61ff",
+    dark: "#333333",
+    fairy: "#ff99cc",
+    normal: "#cccccc",
+    ground: "#d2b48c",
+    rock: "#b8a15a",
+    bug: "#9acd32",
+    poison: "#b266ff",
+    fighting: "#ff9933",
+    ghost: "#9966cc",
+    steel: "#b0b0b0"
+  };
+
+  return colors[type] || "#ffffff";
+}
