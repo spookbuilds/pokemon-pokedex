@@ -1,8 +1,8 @@
-pokemonCard.innerHTML = "";
-
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const pokemonCard = document.getElementById("pokemonCard");
+
+pokemonCard.innerHTML = "";
 
 searchBtn.addEventListener("click", getPokemon);
 
