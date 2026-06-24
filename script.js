@@ -43,6 +43,30 @@ async function getPokemon() {
   }
 }
 
+  const randomBtn = document.getElementById("randomBtn");
+
+randomBtn.addEventListener("click", () => {
+
+  const randomId = Math.floor(Math.random() * 1025) + 1;
+
+  searchInput.value = randomId;
+
+  getPokemon();
+
+});
+
+  let shinyMode = false;
+
+  shinyBtn.addEventListener("click", () => {
+
+  shinyMode = !shinyMode;
+
+  if (currentPokemon) {
+    displayPokemon(currentPokemon);
+  }
+
+});
+
   function displayPokemon(data) {
 
     const stats = data.stats;
@@ -58,6 +82,10 @@ async function getPokemon() {
       ${t.type.name}
     </span>`;
   }).join(" ")}
+  const sprite = shinyMode
+  ? data.sprites.front_shiny
+  : data.sprites.front_default;
+  <img src="${sprite}">
 </div></div>
 
       <h3>Stats</h3>
@@ -100,4 +128,17 @@ function getTypeColor(type) {
   };
 
   return colors[type] || "#ffffff";
+}
+
+localStorage.setItem(
+  "lastPokemon",
+  data.name
+);
+
+const lastPokemon =
+  localStorage.getItem("lastPokemon");
+
+if (lastPokemon) {
+  searchInput.value = lastPokemon;
+  getPokemon();
 }
