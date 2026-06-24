@@ -20,8 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let loadingTimeout = setTimeout(showLoading, 200); 
 
     function showLoading() {
-  pokemonCard.innerHTML = "<p>Loading Pokémon...</p>";
+  pokemonCard.innerHTML = `<div class="loader"></div>`;
 }
+
+    let loadingTimeout = setTimeout(() => {
+  pokemonCard.innerHTML = `<div class="loader"></div>`;
+}, 150);
 
     clearTimeout(loadingTimeout);
 
