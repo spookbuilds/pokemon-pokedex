@@ -14,11 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function getPokemon() {
 
-    const name = (searchInput.value || "").toLowerCase().trim();
+  const name = (searchInput.value || "").toLowerCase().trim();
+  if (!name) return;
 
-    if (!name) return;
+  let loadingTimeout = setTimeout(showLoading, 200); 
 
-    pokemonCard.innerHTML = "<p>Loading Pokémon... ⏳</p>";
+    function showLoading() {
+  pokemonCard.innerHTML = "<p>Loading Pokémon...</p>";
+}
+
+    clearTimeout(loadingTimeout);
 
     try {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
