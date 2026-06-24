@@ -12,40 +12,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-  async function getPokemon() {
+async function getPokemon() {
 
   const name = (searchInput.value || "").toLowerCase().trim();
+
   if (!name) return;
 
-  let loadingTimeout = setTimeout(showLoading, 200); 
-
-    function showLoading() {
   pokemonCard.innerHTML = `<div class="loader"></div>`;
-}
 
-    let loadingTimeout = setTimeout(() => {
-  pokemonCard.innerHTML = `<div class="loader"></div>`;
-}, 150);
+  try {
 
-    clearTimeout(loadingTimeout);
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${name}`
+    );
 
-    try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-      const data = await response.json();
-
-      displayPokemon(data);
-
-    } catch (error) {
-      pokemonCard.innerHTML = "<p>Pokémon not found 😢</p>";
+    if (!response.ok) {
+      throw new Error("Pokemon not found");
     }
+
+    const data = await response.json();
+
+    displayPokemon(data);
+
+  } catch (error) {
+
+    pokemonCard.innerHTML = `
+      <p>Pokémon not found 😢</p>
+    `;
+
   }
+}
 
   function displayPokemon(data) {
 
     const stats = data.stats;
 
     pokemonCard.innerHTML = `
-      <div class="pokemon-card"></div>
+      <div class="pokemon-card">
       <h2>${data.name.toUpperCase()}</h2>
       <img src="${data.sprites.front_default}" />
      <div>
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ${t.type.name}
     </span>`;
   }).join(" ")}
-</div>
+</div></div>
 
       <h3>Stats</h3>
 
